@@ -83,7 +83,7 @@ func (s sigmoid) getActFunc() string {
 
 func (r relu) calculate(n float64) float64 {
 	if n < 0.0 {
-		return 0
+		return 0.0
 	}
 	return n
 }

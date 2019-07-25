@@ -33,10 +33,10 @@ Calculates the output of this neuron
 */
 func (n *neuron) calcOutput() {
 	ws := 0.0
-	for _, w := range n.weightsIn {
-		ws += n.af.calculate(w)
+	for nFrom, w := range n.weightsIn {
+		ws += (w * nFrom.output)
 	}
-	n.output = ws
+	n.output = n.af.calculate(ws)
 }
 
 /*

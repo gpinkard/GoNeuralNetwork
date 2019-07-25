@@ -140,7 +140,6 @@ func (net *network) doBackPropagation(trainingData []float64, learningRate float
 			//wg.Wait()
 		}
 	}
-	fmt.Println("--- Finished Backprop Iteration ---")
 }
 
 // prints network, for debugging...
