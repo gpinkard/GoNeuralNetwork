@@ -5,6 +5,5 @@ A simple neural network implementation I am working on, written in Golang. *Curr
 
 #### TODO
 - More activation functions (currently only sigmoids), Momentum (AdaGrad, RMSProp, etc.), dropout, different layer types...
-- Save neural network state
-- Tests
+- Save neural network state to disk
 - More concurency!
