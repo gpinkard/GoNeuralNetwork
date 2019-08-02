@@ -1,7 +1,8 @@
 package main
 
 import (
-	"GoNeuralNetwork/Network"
+	//"GoNeuralNetwork/Network"
+	"GNN_TMP/Network"
 	"fmt"
 )
 
@@ -17,7 +18,17 @@ func main() {
 	network.AddLayer("basiclayer", "sigmoid", 3)
 	network.AddLayer("basiclayer", "sigmoid", 3)
 	network.AddLayer("basiclayer", "sigmoid", 3)
-	output, _ := network.CalcNetworkOutput(trainingData[0])
+	/*
+		fmt.Println("")
+		network.PrintNetwork()
+		fmt.Println("")
+	*/
+	output, _ := network.CalculateNetworkOutput(trainingData[0])
 	fmt.Println("output:", output)
 	network.Train(trainingData, 0.3, 10)
+	/*
+		fmt.Println("")
+		network.PrintNetwork()
+		fmt.Println("")
+	*/
 }

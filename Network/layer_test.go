@@ -24,14 +24,6 @@ func TestGetNeurons(t *testing.T) {
 	if len(bl.getNeurons()) != 10 {
 		t.Errorf("Expected length of neuron slice to be 10, but got %d", len(bl.getNeurons()))
 	}
-
-	il, _ := createLayer("inputlayer", "sigmoid", 10)
-	if reflect.TypeOf(il).String() != "*GoNeuralNetwork.inputLayer" {
-		t.Errorf("Expected layer to be of type inputLayer but got %s", reflect.TypeOf(il).String())
-	}
-	if len(il.getNeurons()) != 10 {
-		t.Errorf("Expected length of neuron slice to be 10, but got %d", len(bl.getNeurons()))
-	}
 }
 
 func TestConnectLayers(t *testing.T) {
@@ -41,14 +33,22 @@ func TestConnectLayers(t *testing.T) {
 
 	for _, n1 := range l1.getNeurons() {
 		for _, n2 := range l2.getNeurons() {
-			if _, ok1 := n1.weightsOut[n2]; ok1 {
-				if _, ok2 := n2.weightsIn[n1]; ok2 {
-					continue
-				} else {
-					t.Errorf("Found two neurons in connected layers that are not connected")
+			foundN1, foundN2 := false, false
+			for _, w := range n1.weightsIn {
+				if w.from == n2 {
+					foundN2 = true
+					break
 				}
 			}
-			t.Errorf("Found two neurons in connected layers that are not connected")
+			for _, w := range n2.weightsOut {
+				if w.to == n1 {
+					foundN1 = true
+					break
+				}
+			}
+			if !(foundN1 && foundN2) {
+				t.Errorf("not all neurons between two test layers connected correctly...")
+			}
 		}
 	}
 }

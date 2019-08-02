@@ -25,22 +25,24 @@ func TestAddLayer(t *testing.T) {
 	TestConnectLayers(t)
 }
 
-func TestCalcNetworkOutput(t *testing.T) {
+func TestCalculateNetworkOutput(t *testing.T) {
 	net := CreateNetwork()
 	inputData := []float64{0.5, 0.5, 0.5}
 
-	_, err := net.CalcNetworkOutput(inputData)
+	_, err := net.CalculateNetworkOutput(inputData)
 	if err == nil {
 		t.Errorf("Expected error to be returned because network has not layers, but got nil value")
 	}
 
 	net.AddLayer("basiclayer", "sigmoid", 4)
-	_, err = net.CalcNetworkOutput(inputData)
+	//net.AddLayer("basiclayer", "sigmoid", 4)
+	_, err = net.CalculateNetworkOutput(inputData)
 	if err == nil {
 		t.Errorf("Expected error to be returned because input data and input layer are not the same length, but got nil value")
 	}
 
-	res, _ := net.CalcNetworkOutput(inputData)
+	inputData = append(inputData, 0.5)
+	res, _ := net.CalculateNetworkOutput(inputData)
 	lastLayerLength := len(net.layers[len(net.layers)-1].getNeurons())
 	if len(res) != lastLayerLength {
 		t.Errorf("Returned slice not the same length as the last layer in network, expected %d, got %d", lastLayerLength, len(res))
