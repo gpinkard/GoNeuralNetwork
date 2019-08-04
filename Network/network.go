@@ -7,16 +7,25 @@ import (
 	"sync"
 )
 
+/*
+Represents the neural network. A slice of type layer.
+*/
 type network struct {
 	layers []layer
 }
 
+/*
+Creates and returns a pointer to a new network struct.
+*/
 func CreateNetwork() *network {
 	return &network{
 		layers: make([]layer, 0),
 	}
 }
 
+/*
+Adds a layer to the network, given a layer type, activation function, and a size.
+*/
 func (net *network) AddLayer(layerType, actfuncType string, size int) {
 	l, err := createLayer(layerType, actfuncType, size)
 	if err != nil {
@@ -32,6 +41,11 @@ func (net *network) AddLayer(layerType, actfuncType string, size int) {
 	}
 }
 
+/*
+Calculates the output of the network given a slice of training data. Returns a slice of type
+float64 representing the output of the last layers neurons. Returns a non-nil error if the network
+contains no layers, or if the input slice is not the same size last layer of neurons.
+*/
 func (net *network) CalculateNetworkOutput(input []float64) ([]float64, error) {
 	if len(net.layers) == 0 {
 		return nil, errors.New("there are no layers in this network, cannot calculate the networks output...")
@@ -58,6 +72,10 @@ func (net *network) CalculateNetworkOutput(input []float64) ([]float64, error) {
 	return outputs, nil
 }
 
+/*
+Trains the network, given a set of training data (2D slice of floats representing desired outpus),
+a learning rate, and a number of epochs. Returns a non-nil error if the epoch size is less than one.
+*/
 func (net *network) Train(trainingDataSet [][]float64, learningRate float64, epochs int) error {
 	if epochs <= 0 {
 		return errors.New("specified epochs must be greater or equal to 0...")
@@ -76,6 +94,9 @@ func (net *network) Train(trainingDataSet [][]float64, learningRate float64, epo
 	return nil
 }
 
+/*
+Performs back propagation on the given network given a slice of training data and a learning rate.
+*/
 func (net *network) doBackPropagation(trainingData []float64, learningRate float64) {
 	var wg sync.WaitGroup
 
@@ -106,6 +127,9 @@ func (net *network) doBackPropagation(trainingData []float64, learningRate float
 	}
 }
 
+/*
+Prints out the network (mostly for debugging purposes).
+*/
 func (net *network) PrintNetwork() {
 	fmt.Println("----- PRINTING NETWORK -----")
 	for i, l := range net.layers {

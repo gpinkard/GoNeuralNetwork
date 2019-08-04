@@ -6,7 +6,11 @@ import (
 	"time"
 )
 
+/*
+An interface that represents a layer in a neural network
+*/
 type layer interface {
+	// return the slice of neurons in the layer
 	getNeurons() []*neuron
 }
 
@@ -15,6 +19,11 @@ type basicLayer struct {
 	neurons []*neuron
 }
 
+/*
+Creates and returns a layer given a specified layer type, activation function and
+size. Returns a non-nil error if the activation function or layer type is not valid,
+or if the size is less than 1.
+*/
 func createLayer(layerType, actfuncType string, size int) (layer, error) {
 	af, err := createActFunc(actfuncType)
 	if err != nil {
@@ -40,6 +49,9 @@ func createLayer(layerType, actfuncType string, size int) (layer, error) {
 	}
 }
 
+/*
+Connects the neurons between the two and from layers (creates weights between neurons)
+*/
 func connectLayers(to, from layer) {
 	rand.Seed(time.Now().UnixNano())
 	for _, nTo := range to.getNeurons() {
